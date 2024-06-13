@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>String Processing Tool</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  
+  h2 {
+    margin-bottom: 10px;
+  }
+  
+  textarea {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  #resultBox {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    height: 100px;
+    overflow-y: auto;
+  }
+  
+  #details {
+    margin-top: 20px;
+    font-size: 16px;
+  }
+</style>
+<script>
+  function processStrings() {
+    // Get the list of strings
+    var input = document.getElementById("stringList").value;
+    var strings = input.split(/\n|,/).map(str => str.trim());
+    
+    // Remove duplicates
+    var uniqueStrings = [...new Set(strings)];
+    
+    // Calculate total count and count after deduplication
+    var totalCount = strings.length;
+    var deduplicatedCount = uniqueStrings.length;
+    
+    // Update details section
+    document.getElementById("details").innerText = "Total Strings: " + totalCount + "\nCount after Deduplication: " + deduplicatedCount;
+    
+    // Left pad each string to size 10 and join with comma
+    var paddedStrings = uniqueStrings.map(function(str) {
+      return "'" + str.padStart(10, '0') + "'";
+    });
+    var commaSeparated = paddedStrings.join(", ");
+    
+    // Display the padded strings with comma separation
+    document.getElementById("resultBox").innerText = commaSeparated;
+    
+    // Copy result to clipboard
+    copyToClipboard(commaSeparated);
+  }
+  
+  function convertToList() {
+    // Get the list of strings
+    var input = document.getElementById("stringList").value;
+    var strings = input.split(/\n|,/).map(str => str.trim());
+    
+    // Remove duplicates
+    var uniqueStrings = [...new Set(strings)];
+    
+    // Calculate total count and count after deduplication
+    var totalCount = strings.length;
+    var deduplicatedCount = uniqueStrings.length;
+    
+    // Update details section
+    document.getElementById("details").innerText = "Total Count\t: " + totalCount + "\nDistinct Count\t: " + deduplicatedCount;
+    
+    // Left pad each string to size 10 and join with comma
+    var paddedStrings = uniqueStrings.map(function(str) {
+      return "'" + str + "'";
+    });
+    var commaSeparated = paddedStrings.join(", ");
+    
+    // Display the padded strings with comma separation
+    document.getElementById("resultBox").innerText = commaSeparated;
+    
+    // Copy result to clipboard
+    copyToClipboard(commaSeparated);
+  }
+  
+  function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function() {
+      console.log('Text copied to clipboard');
+    }, function(err) {
+      console.error('Failed to copy text to clipboard', err);
+    });
+  }
+</script>
+</head>
+<body>
+<h2>String Conversion Tools</h2>
+<textarea id="stringList" rows="10" placeholder="Hi Ashish, enter your strings here..."></textarea><br>
+<button onclick="convertToList()">Convert to List</button>
+<button onclick="processStrings()">Create Customernumber</button>
+<br><br>
+<h3>Result:</h3>
+<textarea id="resultBox" readonly></textarea>
+<div id="details"></div>
+</body>
+</html>
